@@ -1,7 +1,13 @@
 function sendRequest(){
 		inputScript.disabled = true;
-		alert(sendingLabel.style);
-		sendingLabel.style="";
+		sendingLabel.style.display="";
+		xhttp=new XMLHttpRequest();
+		xhttp.onreadystatechange=function(){
+		if (xhttp.readyState==4 && xhttp.status==200)
+			document.getElementById("sendingLabel").innerHTML  += xhttp.responseText;
+		}
+		xhttp.open("GET","actions?action=sendRequest&request="+document.getElementById('inputScript').value,true);
+		xhttp.send();
 	}
 
 function array_unique( array ) {	// Removes duplicate values from an array

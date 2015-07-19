@@ -99,6 +99,10 @@ public class HelloServlet extends HttpServlet {
 	 		}
 	 		out.println("Wait for redirection");
 	 	}
+	 	else if (action.equals("sendRequest")){
+	 		String query = request.getParameter("request");
+	 		System.out.println(query);
+	 	}
 	}
 
 	@Override
