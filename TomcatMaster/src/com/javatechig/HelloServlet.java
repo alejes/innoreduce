@@ -1,7 +1,12 @@
 package com.javatechig;
 
+import org.json.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
@@ -23,6 +28,38 @@ public class HelloServlet extends HttpServlet {
 		Pattern pattern = Pattern.compile("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"); 
  		return pattern.matcher(ip).matches();
 	}
+	private void redirect(HttpServletResponse response, PrintWriter out, String to){
+		response.setHeader("Location", to);
+		out.println("<html><body><script  type='text/javascript'>window.location='"+to+"';</script></body></html>");
+	}
+	private void addServerIp(String ip){
+		
+		BufferedReader br = null;
+		
+		String jsonText = "";
+		try {
+ 
+			String sCurrentLine;
+ 
+			br = new BufferedReader(new FileReader(getClass().getProtectionDomain().getCodeSource().getLocation().getPath()+"\\..\\..\\..\\..\\..\\serversList.json"));
+			
+			while ((sCurrentLine = br.readLine()) != null) {
+				jsonText += sCurrentLine;
+			}
+ 
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println(getClass().getProtectionDomain().getCodeSource().getLocation());
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (br != null)br.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		 JSONObject obj = new JSONObject(jsonText);	
+	}
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -38,13 +75,13 @@ public class HelloServlet extends HttpServlet {
 	 	if (action.equals("addip")){
 	 		String ip = request.getParameter("addip");
 	 		if (!checkip(ip)){
-	 			//out.println("WrongIp");
-	 			response.setHeader("Location", "../?wrongIp="+ip);
+	 			redirect(response, out, request.getRequestURL() + "../../?wrongIp="+ip);
 	 		}
 	 		else{
-	 			response.setHeader("Location", "../?ipadded");
+	 			addServerIp(ip);
+	 			redirect(response, out, request.getRequestURL() + "../../?ipadded");
 	 		}
-	 		
+	 		out.println("Wait for redirection");
 	 	}
 	}
 
