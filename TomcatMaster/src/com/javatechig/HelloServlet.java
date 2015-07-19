@@ -125,21 +125,21 @@ public class HelloServlet extends HttpServlet {
 
 		StringBuilder result = new StringBuilder();
 
-//		for (int i = 0; i < connArgs.size(); i++) {
+		for (int i = 0; i < connArgs.size(); i++) {
 			try {
-				Registry registry = LocateRegistry.getRegistry("192.168.56.101");
+				Registry registry = LocateRegistry.getRegistry(connArgs.get(i).getUrl());
 				// Lookup server object
 				Sensorable sensorRegistry = (Sensorable) registry.lookup("Sensor");
-				// System.out.println(sensorRegistry.sayHello());
 				ArrayList<Sensor> sensors = sensorRegistry.selectAll(query);
 				for (Sensor s : sensors) {
 					result.append(s.toString() + "<br>");
-					// System.out.println(s.toString());
 				}
-				// }
 			} catch (Exception e) {
-				System.out.println("Server down now ");
+				
+				System.out.println("Server at " + connArgs.get(i).getUrl() + " down!");
+				result.append("Server at " + connArgs.get(i).getUrl() + " down!<br/>\n");
 			}
+		}
 		return result.toString();
 	}
 
