@@ -1,0 +1,1 @@
+javac ConnectionArgs.java DBManager.java Sensor.java Sensorable.java DemoServlet.java SensorObject.java SensorRepository.java SensorServer.java
