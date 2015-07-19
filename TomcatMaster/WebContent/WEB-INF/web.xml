@@ -11,6 +11,6 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>HelloServlet</servlet-name>
-		<url-pattern>/e3e3</url-pattern>
+		<url-pattern>/actions</url-pattern>
 	</servlet-mapping>
 </web-app>
