@@ -1,12 +1,16 @@
 package com.javatechig;
 
 import org.json.*;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
@@ -58,7 +62,19 @@ public class HelloServlet extends HttpServlet {
 				ex.printStackTrace();
 			}
 		}
-		 JSONObject obj = new JSONObject(jsonText);	
+		 JSONObject obj = new JSONObject(jsonText);
+		 JSONArray arr = obj.getJSONArray("ip");
+		 
+		 //sorting
+		 ArrayList<String> ipArray = new  ArrayList<String>();
+		 for (int i = 0; i < arr.length(); i++)
+			    if (!ip.equals(arr.getString(i)))
+			    	ipArray.add(arr.getString(i));
+		 ipArray.add(ip);
+		 Collections.sort(ipArray);
+		 
+		 obj = new JSONObject(jsonText);
+		 
 	}
 	@Override
 	protected void doGet(HttpServletRequest request,
