@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -102,6 +104,10 @@ public class HelloServlet extends HttpServlet {
 	 	else if (action.equals("sendRequest")){
 	 		String query = request.getParameter("request");
 	 		System.out.println(query);
+	 		String results = GetResult(query);
+	 		//String results = "RYKI ZHOPA BUSTREJ";
+	 		System.out.println(results);
+	 		out.print(results);
 	 	}
 	}
 
@@ -109,6 +115,32 @@ public class HelloServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		 	
+	}
+
+	public static String GetResult(String query) {
+
+		ArrayList<ConnectionArgs> connArgs = new ArrayList<ConnectionArgs>();
+		connArgs.add(new ConnectionArgs("", "", "192.168.56.101"));
+		connArgs.add(new ConnectionArgs("", "", "192.168.56.102"));
+
+		StringBuilder result = new StringBuilder();
+
+//		for (int i = 0; i < connArgs.size(); i++) {
+			try {
+				Registry registry = LocateRegistry.getRegistry("192.168.56.101");
+				// Lookup server object
+				Sensorable sensorRegistry = (Sensorable) registry.lookup("Sensor");
+				// System.out.println(sensorRegistry.sayHello());
+				ArrayList<Sensor> sensors = sensorRegistry.selectAll(query);
+				for (Sensor s : sensors) {
+					result.append(s.toString() + "<br>");
+					// System.out.println(s.toString());
+				}
+				// }
+			} catch (Exception e) {
+				System.out.println("Server down now ");
+			}
+		return result.toString();
 	}
 
 	@Override

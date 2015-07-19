@@ -46,8 +46,8 @@
 			<div class="alert alert-info" role="alert" id="sendingLabel" style="display:none">
 				Sending request, please wait!
 			</div>
-			<div class="alert alert-success" role="alert"  style="display:none">
-				Answer of script
+			<div class="alert alert-success" role="alert" id="answerLabel"  style="display:none">
+				
 			</div>
 		</div>
 	</div>

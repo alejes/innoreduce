@@ -1,10 +1,25 @@
+function dump(obj) {
+    var out = "";
+    if(obj && typeof(obj) == "object"){
+        for (var i in obj) {
+            out += i + ": " + obj[i] + "\n";
+        }
+    } else {
+        out = obj;
+    }
+    alert(out);
+}
+
 function sendRequest(){
 		inputScript.disabled = true;
 		sendingLabel.style.display="";
 		xhttp=new XMLHttpRequest();
 		xhttp.onreadystatechange=function(){
-		if (xhttp.readyState==4 && xhttp.status==200)
-			document.getElementById("sendingLabel").innerHTML  += xhttp.responseText;
+		if (xhttp.readyState==4 && xhttp.status==200){
+				sendingLabel.style.display="none";
+				answerLabel.style.display="";
+				document.getElementById("answerLabel").innerHTML  = xhttp.responseText;
+			}
 		}
 		xhttp.open("GET","actions?action=sendRequest&request="+document.getElementById('inputScript').value,true);
 		xhttp.send();
