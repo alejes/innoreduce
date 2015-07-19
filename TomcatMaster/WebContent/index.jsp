@@ -40,11 +40,14 @@
 		<div class="col-sm-4">
 			<div class="form-group">
 				<label for="comment">Please enter your script:</label>
-				<textarea class="form-control" rows="5" id="comment" placeholder="avg h"></textarea>
-				<button type="button" class="btn btn-lg btn-primary">Execute</button>
+				<textarea class="form-control" rows="5" id="inputScript" placeholder="avg h"></textarea>
+				<button type="button" class="btn btn-lg btn-primary"  onclick="sendRequest()" >Execute</button>
 			</div>
-			<div class="alert alert-info" role="alert">
+			<div class="alert alert-info" role="alert" id="sendingLabel" style="display:none">
 				Sending request, please wait!
+			</div>
+			<div class="alert alert-success" role="alert"  style="display:none">
+				Answer of script
 			</div>
 		</div>
 	</div>

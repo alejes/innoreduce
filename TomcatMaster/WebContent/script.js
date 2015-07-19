@@ -1,8 +1,7 @@
 function sendRequest(){
-		//alert("Ok");
-		log.style="";
-		inputScript.rows = 2;
 		inputScript.disabled = true;
+		alert(sendingLabel.style);
+		sendingLabel.style="";
 	}
 
 function array_unique( array ) {	// Removes duplicate values from an array
