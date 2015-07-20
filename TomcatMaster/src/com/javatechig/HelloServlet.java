@@ -3,7 +3,9 @@ package com.javatechig;
 import org.json.*;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
@@ -39,20 +41,14 @@ public class HelloServlet extends HttpServlet {
 		out.println("<html><body><script  type='text/javascript'>window.location='"+to+"';</script></body></html>");
 	}
 	private void addServerIp(String ip){
-		
 		BufferedReader br = null;
-		
 		String jsonText = "";
-		try {
- 
+		try { 
 			String sCurrentLine;
- 
 			br = new BufferedReader(new FileReader(getClass().getProtectionDomain().getCodeSource().getLocation().getPath()+"\\..\\..\\..\\..\\..\\serversList.json"));
-			
 			while ((sCurrentLine = br.readLine()) != null) {
 				jsonText += sCurrentLine;
 			}
- 
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println(getClass().getProtectionDomain().getCodeSource().getLocation());
@@ -66,7 +62,6 @@ public class HelloServlet extends HttpServlet {
 		}
 		 JSONObject obj = new JSONObject(jsonText);
 		 JSONArray arr = obj.getJSONArray("ip");
-		 
 		 //sorting
 		 ArrayList<String> ipArray = new  ArrayList<String>();
 		 for (int i = 0; i < arr.length(); i++)
@@ -74,9 +69,72 @@ public class HelloServlet extends HttpServlet {
 			    	ipArray.add(arr.getString(i));
 		 ipArray.add(ip);
 		 Collections.sort(ipArray);
-		 
-		 obj = new JSONObject(jsonText);
-		 
+		 obj = new JSONObject();
+		 obj.put("ip", ipArray);
+		 PrintWriter out = null;
+		 try {
+			out	= new PrintWriter(new BufferedWriter(new FileWriter(getClass().getProtectionDomain().getCodeSource().getLocation().getPath()+"\\..\\..\\..\\..\\..\\serversList.json")));
+			out.write( obj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println(getClass().getProtectionDomain().getCodeSource().getLocation());
+			System.out.println(e.getMessage());
+		} finally {
+				try {
+				if (out != null)out.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		System.out.println("Write response:");
+		System.out.println(obj.toString());
+	}
+	private void deleteServerIp(String ip){
+		BufferedReader br = null;
+		String jsonText = "";
+		try { 
+			String sCurrentLine;
+			br = new BufferedReader(new FileReader(getClass().getProtectionDomain().getCodeSource().getLocation().getPath()+"\\..\\..\\..\\..\\..\\serversList.json"));
+			while ((sCurrentLine = br.readLine()) != null) {
+				jsonText += sCurrentLine;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println(getClass().getProtectionDomain().getCodeSource().getLocation());
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (br != null)br.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		 JSONObject obj = new JSONObject(jsonText);
+		 JSONArray arr = obj.getJSONArray("ip");
+		 //sorting
+		 ArrayList<String> ipArray = new  ArrayList<String>();
+		 for (int i = 0; i < arr.length(); i++)
+			    if (!ip.equals(arr.getString(i)))
+			    	ipArray.add(arr.getString(i));
+		 obj = new JSONObject();
+		 obj.put("ip", ipArray);
+		 PrintWriter out = null;
+		 try {
+			out	= new PrintWriter(new BufferedWriter(new FileWriter(getClass().getProtectionDomain().getCodeSource().getLocation().getPath()+"\\..\\..\\..\\..\\..\\serversList.json")));
+			out.write( obj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println(getClass().getProtectionDomain().getCodeSource().getLocation());
+			System.out.println(e.getMessage());
+		} finally {
+				try {
+				if (out != null)out.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		System.out.println("Write response:");
+		System.out.println(obj.toString());
 	}
 	@Override
 	protected void doGet(HttpServletRequest request,
@@ -100,6 +158,19 @@ public class HelloServlet extends HttpServlet {
 	 			redirect(response, out, request.getRequestURL() + "../../?ipadded");
 	 		}
 	 		out.println("Wait for redirection");
+	 	}
+	 	else if (action.equals("deleteServer")){
+	 		String ip = request.getParameter("deleteip");
+	 		if (!checkip(ip)){
+	 			out.println("CHECK FAILED");
+	 			System.out.println("CHECK FAILED");
+	 		}
+	 		else{
+	 			System.out.println(ip);
+	 			deleteServerIp(ip);
+	 			out.println("OK");
+	 			System.out.println("DELETE OK");
+	 		}
 	 	}
 	 	else if (action.equals("sendRequest")){
 	 		String query = request.getParameter("request");

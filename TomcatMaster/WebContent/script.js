@@ -42,8 +42,32 @@ function array_unique( array ) {	// Removes duplicate values from an array
 	return true;
 }
 
-var serverIp = new Array("127.0.0.1", "127.0.0.2", "127.0.0.11");	
+function file_get_contents( url ) {	// Reads entire file into a string
+	// 
+	// +   original by: Legaev Andrey
+	// %		note 1: This function uses XmlHttpRequest and cannot retrieve resource from different domain.
+
+	var req = null;
+	try { req = new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {
+		try { req = new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) {
+			try { req = new XMLHttpRequest(); } catch(e) {}
+		}
+	}
+	if (req == null) throw new Error('XMLHttpRequest not supported');
+
+	req.open("GET", url, false);
+	req.send(null);
+
+	return req.responseText;
+}
+
+//var serverIp = new Array("127.0.0.1", "127.0.0.2", "127.0.0.11");	
 function serversShow(){
+	var jsonText = file_get_contents('serversList.json?' + Math.random());
+	//alert(jsonText);
+	var jsonText = JSON.parse(jsonText);
+	//alert(jsonText);
+	var serverIp =  jsonText.ip;
 	insertServers.innerHTML = "";
 	for (var ip in serverIp){
 			insertServers.innerHTML += "<div class='row'>\
@@ -54,7 +78,7 @@ function serversShow(){
 								</span>\
 								<li class='list-group-item list-group-item-success'>" + serverIp[ip] + "</li>\
 								<div class='input-group-addon' aria-expanded='false'>\
-									<button type='button' class='btn btn-default dropdown-toggle'><span class='glyphicon glyphicon-trash'></span> </button>\
+									<button type='button' class='btn btn-default dropdown-toggle' onClick='return deleteServer(\"" + serverIp[ip] + "\");'><span class='glyphicon glyphicon-trash'></span> </button>\
 								</div>\
 							</div><!-- /input-group -->\
 						</div>\
@@ -68,4 +92,20 @@ function addServer(){
 	array_unique(serverIp);
 	serverIp.sort();
 	serversShow();
+	window.location.reload(true);
+	setTimeout('window.location.reload(true)', 3000);
+}
+
+
+function deleteServer(ip){
+		xhttp=new XMLHttpRequest();
+		xhttp.onreadystatechange=function(){
+		if (xhttp.readyState==4 && xhttp.status==200){
+				serversShow();
+				window.location.reload(true);
+				setTimeout('window.location.reload(true)', 3000);
+			}
+		}
+		xhttp.open("GET","actions?action=deleteServer&deleteip="+ip,true);
+		xhttp.send();	
 }
