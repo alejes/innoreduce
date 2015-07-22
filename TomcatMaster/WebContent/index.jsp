@@ -6,23 +6,14 @@
     <meta name="description" content="">
     <meta name="author" content="Big Data Innopolis Group">
     <link rel="icon" href="favicon.ico">
-	<title>Innoreduce alpha 1.0</title>
+	<title>Innoreduce alpha 1.1</title>
 	<!--<link rel="stylesheet" href="bootstrap.min.css">-->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<script type="text/javascript" src="script.js"></script>
 </head>
 <body>
 
-
-		
-
 <body role="document">	
-<div class="alert alert-info" role="alert" id="sendingLabel2" style="display:none">
-qq
-</div>
-<div class="alert alert-success" role="alert" id="answerLabel2"  style="display:none">
-</div>
-
 	<div class="row">
 		<div class="col-sm-4">
 			<div class="panel panel-primary">
