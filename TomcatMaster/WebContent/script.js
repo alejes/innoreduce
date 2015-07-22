@@ -22,7 +22,7 @@ function sendRequest(){
 			}
 		}
 		xhttp.open("GET","actions?action=sendRequest&request="+document.getElementById('inputScript').value,true);
-		xhttp.send();
+		xhttp.send(null);
 	}
 
 function array_unique( array ) {	// Removes duplicate values from an array
@@ -61,7 +61,30 @@ function file_get_contents( url ) {	// Reads entire file into a string
 	return req.responseText;
 }
 
-//var serverIp = new Array("127.0.0.1", "127.0.0.2", "127.0.0.11");	
+function check(ip, id) {
+	 xhttp=new XMLHttpRequest();
+	 xhttp.onreadystatechange=function(){
+	  console.log(xhttp.readyState, ' >< ', xhttp.status);
+	  var el = document.getElementById("server" + id);
+	  if (xhttp.readyState==4 && xhttp.status==200){
+	   console.log(xhttp.responseText); 
+	   if (xhttp.responseText == "true") {
+	    el.setAttribute('class', 'list-group-item list-group-item-success');
+	   }
+	   else {
+	    el.setAttribute('class', 'list-group-item list-group-item-danger');
+	   }
+	  }
+	  else if (xhttp.status === 0){
+	   el.setAttribute('class', 'list-group-item list-group-item-danger');
+	  }
+	 }
+	 xhttp.open("GET","hb?action=sendHeartBeat&checkip="+ip,true); 
+	 xhttp.send();
+	 
+	 setTimeout(check, 30000, ip, id);
+	}
+
 function serversShow(){
 	var jsonText = file_get_contents('serversList.json?' + Math.random());
 	//alert(jsonText);
@@ -76,13 +99,15 @@ function serversShow(){
 								<span class='input-group-addon'>\
 									<input type='checkbox' aria-label='...'>\
 								</span>\
-								<li class='list-group-item list-group-item-success'>" + serverIp[ip] + "</li>\
+								<li id='server"+ip+"' class='list-group-item list-group-item-warning'>" + serverIp[ip] + "</li>\
 								<div class='input-group-addon' aria-expanded='false'>\
 									<button type='button' class='btn btn-default dropdown-toggle' onClick='return deleteServer(\"" + serverIp[ip] + "\");'><span class='glyphicon glyphicon-trash'></span> </button>\
 								</div>\
 							</div><!-- /input-group -->\
 						</div>\
 					</div>";
+			check(serverIp[ip], ip);
+	
 	}
 }
 

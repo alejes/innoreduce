@@ -14,7 +14,15 @@
 <body>
 
 
+		
+
 <body role="document">	
+<div class="alert alert-info" role="alert" id="sendingLabel2" style="display:none">
+qq
+</div>
+<div class="alert alert-success" role="alert" id="answerLabel2"  style="display:none">
+</div>
+
 	<div class="row">
 		<div class="col-sm-4">
 			<div class="panel panel-primary">
@@ -41,7 +49,7 @@
 			<div class="form-group">
 				<label for="comment">Please enter your script:</label>
 				<textarea class="form-control" rows="5" id="inputScript" placeholder="avg h"></textarea>
-				<button type="button" class="btn btn-lg btn-primary"  onclick="sendRequest()" >Execute</button>
+				<button type="button" class="btn btn-lg btn-primary"  onclick="sendRequest();" >Execute</button>
 			</div>
 			<div class="alert alert-info" role="alert" id="sendingLabel" style="display:none">
 				Sending request, please wait!

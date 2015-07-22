@@ -7,10 +7,19 @@
 
 	<servlet>
 		<servlet-name>HelloServlet</servlet-name>
-		<servlet-class>com.javatechig.HelloServlet</servlet-class>
+		<servlet-class>HelloServlet</servlet-class>
 	</servlet>
-	<servlet-mapping>
+		<servlet-mapping>
 		<servlet-name>HelloServlet</servlet-name>
 		<url-pattern>/actions</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>HeartBeatServlet</servlet-name>
+		<servlet-class>HeartBeatServlet</servlet-class>
+	</servlet>
+		<servlet-mapping>
+		<servlet-name>HeartBeatServlet</servlet-name>
+		<url-pattern>/hb</url-pattern>
 	</servlet-mapping>
 </web-app>
