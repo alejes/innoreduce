@@ -1,5 +1,3 @@
-
-
 public class ConnectionArgs {
 	private String userName;;
 	private String password;

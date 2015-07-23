@@ -38,14 +38,14 @@
         </div><!-- /.col-sm-4 -->
 		<div class="col-sm-4">
 			<div class="form-group">
-				<label for="comment">Please enter your script:</label>
-				<textarea class="form-control" rows="5" id="inputScript" placeholder="avg h"></textarea>
+				<textarea class="form-control" rows="5" id="inputScript" placeholder="Please, enter your script here"></textarea>
 				<button type="button" class="btn btn-lg btn-primary"  onclick="sendRequest();" >Execute</button>
+				<button type="button" class="btn btn-lg btn-primary"  onclick="clearForm();" >Clear</button>
 			</div>
 			<div class="alert alert-info" role="alert" id="sendingLabel" style="display:none">
 				Sending request, please wait!
 			</div>
-			<div class="alert alert-success" role="alert" id="answerLabel"  style="display:none">
+			<div class="alert alert-success" role="alert" id="answerLabel"  style="display:none" >
 				
 			</div>
 		</div>

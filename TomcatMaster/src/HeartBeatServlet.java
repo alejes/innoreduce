@@ -14,7 +14,7 @@ public class HeartBeatServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws javax.servlet.ServletException, java.io.IOException {
-		System.out.println("check");
+//		System.out.println("check");
 		try {
 			response.setContentType("text/html");
 			PrintWriter out = response.getWriter();
@@ -28,7 +28,7 @@ public class HeartBeatServlet extends HttpServlet {
 				
 				System.out.println(ip);
 				Boolean answer = heartbeatMaintain(request, response, ip);
-				System.out.println(answer.toString());
+				System.out.println(ip + " - " + answer.toString());
 				out.write(answer.toString());
 			}
 		} catch (Exception ex) {

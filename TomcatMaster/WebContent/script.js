@@ -10,6 +10,12 @@ function dump(obj) {
 	alert(out);
 }
 
+function clearForm() {
+	document.getElementById('inputScript').value = "";
+	inputScript.disabled = false;
+	executeButton.disabled = false;
+}
+
 function sendRequest() {
 
 	inputScript.disabled = true;
@@ -97,7 +103,9 @@ function check(ip, id) {
 		var el = document.getElementById("server" + id);
 		sendReq("hb?action=sendHeartBeat&checkip=" + ip + "&id=" + id,
 				function processResponse(response) {
-					if (response == "true" + "__" + id) {
+					if (response == "true")
+//						+ "__" + id) 
+						{
 						el.setAttribute('class',
 								'list-group-item list-group-item-success');
 					} else {
@@ -106,7 +114,7 @@ function check(ip, id) {
 					}
 				});
 
-		setTimeout(check, 1000, ip, id);
+		setTimeout(check, 5000, ip, id);
 	}
 }
 
@@ -121,9 +129,9 @@ function serversShow() {
 		insertServers.innerHTML += "<div class='row'>\
 						<div class='col-lg-6'>\
 							<div class='input-group'>\
-								<span class='input-group-addon'>\
+								<!-- <span class='input-group-addon'>\
 									<input type='checkbox' aria-label='...'>\
-								</span>\
+								</span>-->\
 								<li id='server"
 				+ ip
 				+ "' class='list-group-item list-group-item-warning'>"
